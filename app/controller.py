@@ -1,19 +1,28 @@
 import json
-from datetime import datetime, timedelta, timezone
-from flask import Flask, request, Response
-from sqlalchemy import select
-from flask_cors import CORS
-from models import *
+from datetime import datetime
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE"], "allow_headers": ["Content-Type"], "supports_credentials": True}})
+from flask import Blueprint, Response, request
+from sqlalchemy import select
+
+from app.model import (
+    Categoria,
+    Funcionario,
+    Pedido,
+    PedidoProduto,
+    Produto,
+    StatusPedido,
+    db_session,
+)
+
+app = Blueprint("main_controller", __name__)
+
+ADMIN_EMAIL = "admin@gmail.com"
+ADMIN_PASSWORD = "admin123"
+
 
 @app.route('/')
 def hello_world():  # put application's code here
     return 'Hello World!'
-
-ADMIN_EMAIL = "admin@gmail.com"
-ADMIN_PASSWORD = "admin123"
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -107,7 +116,7 @@ def listCategoriaById(id):
         )
 
 
-from flask import request
+
 
 
 @app.route('/categoria', methods=['POST'])
@@ -1067,6 +1076,3 @@ def removerProduto(pedido_id, produto_id):
             status=500,
             mimetype='application/json'
         )
-
-if __name__ == '__main__':
-    app.run()

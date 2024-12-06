@@ -1,16 +1,30 @@
 #importar bibliotecas
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, Enum, Float
-from sqlalchemy.orm import sessionmaker, scoped_session, relationship, declarative_base
-from enum import Enum as PyEnum
+import os
 from datetime import datetime
+from enum import Enum as PyEnum
 
-#configurar banco
-engine = create_engine('sqlite:///db.sqlite3.db')
+from sqlalchemy import (
+    Column,
+    DateTime,
+    Enum,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    create_engine,
+)
+from sqlalchemy.orm import declarative_base, relationship, scoped_session, sessionmaker
+
+engine = create_engine(str(os.getenv("DB_URL")))
 
 db_session = scoped_session(sessionmaker(bind=engine))
 
 Base = declarative_base()
 Base.query = db_session.query_property()
+
+def create_database():
+    Base.metadata.create_all(bind=engine)
+
 
 class Categoria(Base):
     __tablename__ = 'categoria'
@@ -31,6 +45,7 @@ class Categoria(Base):
             'nome': self.nome,
         }
         return dados_categoria
+
 
 class Funcionario(Base):
     __tablename__ = 'funcionario'
@@ -145,5 +160,6 @@ class PedidoProduto(Base):
         }
         return dados_pedidoProduto
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     Base.metadata.create_all(bind=engine)
