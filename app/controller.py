@@ -564,6 +564,14 @@ def createProduto():
                 mimetype='application/json'
             )
 
+        # Verifica se o preço é um valor positivo
+        if data['preco'] <= 0:
+            return Response(
+                json.dumps({'status': 'error', 'message': 'Preço deve ser maior que zero'}),
+                status=400,
+                mimetype='application/json'
+            )
+
         # Cria o novo produto
         produto = Produto(
             nome=data['nome'],
@@ -591,6 +599,7 @@ def createProduto():
             status=500,
             mimetype='application/json'
         )
+
 
 
 @app.route('/produto/<int:id>', methods=['PUT'])
