@@ -564,10 +564,18 @@ def createProduto():
                 mimetype='application/json'
             )
 
-        # Verifica se o preço é um valor positivo
-        if data['preco'] <= 0:
+        # Verifica se o preço é um valor válido (deve ser um número)
+        try:
+            preco = float(data['preco'])
+            if preco <= 0:
+                return Response(
+                    json.dumps({'status': 'error', 'message': 'Preço deve ser maior que zero'}),
+                    status=400,
+                    mimetype='application/json'
+                )
+        except ValueError:
             return Response(
-                json.dumps({'status': 'error', 'message': 'Preço deve ser maior que zero'}),
+                json.dumps({'status': 'error', 'message': 'Preço deve ser um número válido'}),
                 status=400,
                 mimetype='application/json'
             )
@@ -577,7 +585,7 @@ def createProduto():
             nome=data['nome'],
             descricao=data['descricao'],
             imagem=data['imagem'],
-            preco=data['preco'],
+            preco=preco,
             categoria_id=data['categoria_id']
         )
         produto.save()  # Salva o produto no banco de dados
@@ -599,7 +607,6 @@ def createProduto():
             status=500,
             mimetype='application/json'
         )
-
 
 
 @app.route('/produto/<int:id>', methods=['PUT'])
