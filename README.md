@@ -26,7 +26,7 @@ poetry install
 
 ## Iniciar aplicação
 ```sh
-flask run
+fastapi dev
 ```
 
 ## Poetry Extras

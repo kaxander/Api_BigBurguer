@@ -1,13 +1,15 @@
-import os
 from functools import lru_cache
 from typing import Generator
 
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
+from app.config import get_settings
+
 
 def get_engine() -> Engine:
-    return create_engine(str(os.getenv("DB_URL")))
+    config = get_settings()
+    return create_engine(config.db_url)
 
 
 @lru_cache

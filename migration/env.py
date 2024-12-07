@@ -7,7 +7,10 @@ from typing import Any
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+from app.config import get_settings
 from app.infra.db import Base
+
+settings = get_settings()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -35,7 +38,7 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-config.set_main_option("sqlalchemy.url", str(os.getenv("DB_URL")))
+config.set_main_option("sqlalchemy.url", settings.db_url)
 extra_config: dict[str, Any] = {"version_table": "migration_version"}
 
 
