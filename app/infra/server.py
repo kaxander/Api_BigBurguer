@@ -1,9 +1,8 @@
 from contextlib import asynccontextmanager
 
+import alembic.config
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
-
-from app.infra.db import Base, get_engine
 
 
 def show_docs(request: Request):
@@ -13,6 +12,10 @@ def show_docs(request: Request):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.get("/", response_class=RedirectResponse, include_in_schema=False)(show_docs)
-    Base.metadata.create_all(get_engine())
+    alembicArgs = [
+        '--raiseerr',
+        'upgrade', 'head',
+    ]
+    alembic.config.main(argv=alembicArgs)
     yield
 

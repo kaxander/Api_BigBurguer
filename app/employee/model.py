@@ -7,7 +7,6 @@ from app.infra.db import Base
 
 
 class EmployeeModel(Base):
-    __tablename__ = "employee"
 
     name: Mapped[str] = mapped_column(String(40), nullable=False)
     email: Mapped[str] = mapped_column(String(40), nullable=False, unique=True)

@@ -9,7 +9,6 @@ from app.infra.db import Base
 
 
 class ProductModel(Base):
-    __tablename__ = "product"
     
     name: Mapped[str] = mapped_column(String(40), nullable=False)
     description: Mapped[str] = mapped_column(String(40), nullable=False)

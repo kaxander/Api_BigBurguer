@@ -13,7 +13,6 @@ from app.order.enum import StatusEnum
 
 
 class OrderModel(Base):
-    __tablename__ = "order"
     
     table: Mapped[str] = mapped_column(String(10), nullable=False)
     status: Mapped[StatusEnum] = mapped_column(nullable=False)
