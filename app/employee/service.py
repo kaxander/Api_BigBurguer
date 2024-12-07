@@ -40,6 +40,6 @@ def update_employee(
     session: Session, employee_id: int, employee: EmployeeUpdateSchema | EmployeeCreateSchema
 ) -> EmployeeSchema:
     with session.begin():
-        employee_updated = repository.update(session=session, employee_id=employee_id, **employee.__dict__)
+        employee_updated = repository.update(session=session, employee_id=employee_id, **employee.model_dump(exclude_none=True))
         employee_ = EmployeeSchema(**employee_updated.__dict__)
     return employee_

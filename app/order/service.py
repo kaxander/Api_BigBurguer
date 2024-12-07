@@ -36,6 +36,6 @@ def update_order(
     session: Session, order_id: int, order: OrderUpdateSchema | OrderCreateSchema
 ) -> OrderSchema:
     with session.begin():
-        order_updated = repository.update(session=session, order_id=order_id, **order.__dict__)
+        order_updated = repository.update(session=session, order_id=order_id, **order.model_dump(exclude_none=True))
         order_ = OrderSchema(**order_updated.__dict__)
     return order_

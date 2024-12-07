@@ -36,6 +36,6 @@ def update_product(
     session: Session, product_id: int, product: ProductUpdateSchema | ProductCreateSchema
 ) -> ProductSchema:
     with session.begin():
-        product_updated = repository.update(session=session, product_id=product_id, **product.__dict__)
+        product_updated = repository.update(session=session, product_id=product_id, **product.model_dump(exclude_none=True))
         product_ = ProductSchema(**product_updated.__dict__)
     return product_

@@ -40,6 +40,6 @@ def update_category(
     session: Session, category_id: int, category: CategoryUpdateSchema | CategoryCreateSchema
 ) -> CategorySchema:
     with session.begin():
-        category_updated = repository.update(session=session, category_id=category_id, **category.__dict__)
+        category_updated = repository.update(session=session, category_id=category_id, **category.model_dump(exclude_none=True))
         category_ = CategorySchema(**category_updated.__dict__)
     return category_
