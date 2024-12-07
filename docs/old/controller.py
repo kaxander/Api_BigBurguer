@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Response
+from old.schema import CategoriaSchema, FuncionarioSchema, LoginSchema, ResponseSchema
 from sqlalchemy import select
 
 from app.model import (
@@ -10,7 +11,6 @@ from app.model import (
     # StatusPedido,
     db_session,
 )
-from app.schema import CategoriaSchema, FuncionarioSchema, LoginSchema, ResponseSchema
 
 app = APIRouter()
 
@@ -214,7 +214,6 @@ def updateFuncionario(id: int, body: FuncionarioSchema, response: Response):
     funcionario.save()
 
     # Resposta de sucesso
-    response.status_code = 200
     return {
         "status": "success",
         "message": "Funcionário atualizado com sucesso!",
@@ -227,42 +226,24 @@ def updateFuncionario(id: int, body: FuncionarioSchema, response: Response):
     }
 
 
-# @app.post('/funcionario/delete/<int:id>')
-# def deleteFuncionario(id):
-#     try:
-#         # Busca o funcionário
-#         funcionario_sql = select(Funcionario).where(Funcionario.id == id)
-#         funcionario = db_session.execute(funcionario_sql).scalar()
+@app.delete('/funcionario/delete/{id}')
+def deleteFuncionario(id: int, response: Response):
+        funcionario_sql = select(Funcionario).where(Funcionario.id == id)
+        funcionario = db_session.execute(funcionario_sql).scalar()
 
-#         # Verifica se o funcionário foi encontrado
-#         if not funcionario:
-#             return Response(
-#                 json.dumps({'status': 'error', 'message': 'Funcionário não encontrado'}),
-#                 status=404,
-#                 mimetype='application/json'
-#             )
+        # Verifica se o funcionário foi encontrado
+        if not funcionario:
+            response.status_code = 404
+            return {'status': 'error', 'message': 'Funcionário não encontrado'}
 
-#         # Exclui o funcionário
-#         funcionario.delete()
+        # Exclui o funcionário
+        funcionario.delete()
 
-#         # Resposta de sucesso
-#         final = {
-#             'status': 'success',
-#             'message': f'{funcionario.nome} foi excluído com sucesso!'
-#         }
-
-#         return Response(
-#             response=json.dumps(final),
-#             status=200,
-#             mimetype='application/json'
-#         )
-
-#     except Exception as e:
-#         return Response(
-#             json.dumps({'status': 'error', 'message': str(e)}),
-#             status=500,
-#             mimetype='application/json'
-#         )
+        # Resposta de sucesso
+        return {
+            'status': 'success',
+            'message': f'{funcionario.nome} foi excluído com sucesso!'
+        }
 
 # @app.post('/funcionario/login')
 # def loginFuncionario():

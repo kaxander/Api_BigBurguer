@@ -1,4 +1,4 @@
-from app.main import create_app
+from app.asgi import create_app
 
 app = create_app()
 

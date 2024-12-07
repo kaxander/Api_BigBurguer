@@ -1,6 +1,9 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
+from app.controller import app as router
+from app.infra.server import lifespan
+
 load_dotenv()
 
 # from flask import Flask
@@ -30,8 +33,6 @@ load_dotenv()
 
 
 def create_app():
-    from app.controller import app as router
-
-    app = FastAPI()
+    app = FastAPI(lifespan=lifespan)
     app.include_router(router)
     return app

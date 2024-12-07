@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "api-bigburguer"
-version = "0.1.0"
+version = "0.2.0"
 description = "API REST"
 authors = ["Gabriel Alexandre"]
 packages = [{include = "app"}]
@@ -8,17 +8,23 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-flask = "^3.1.0"
-sqlalchemy = "^2.0.36"
+sqlalchemy = {extras = ["mypy"], version = "^2.0.36"}
 psycopg = {extras = ["binary"], version = "^3.2.3"}
-flask-cors = "^5.0.0"
 python-dotenv = "^1.0.1"
 fastapi = {extras = ["standard"], version = "^0.115.6"}
+email-validator = "^2.2.0"
+pydantic-extra-types = "^2.10.1"
+phonenumbers = "^8.13.51"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.8.2"
-types-flask-cors = "^5.0.0.20240902"
+mypy = "^1.13.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+plugins = ["sqlalchemy.ext.mypy.plugin"]
+warn_no_return = true
+ignore_missing_imports = true
