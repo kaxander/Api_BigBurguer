@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from sqlalchemy import (
     String,
 )
@@ -12,4 +14,4 @@ class ProductModel(Base):
     name: Mapped[str] = mapped_column(String(40), nullable=False)
     description: Mapped[str] = mapped_column(String(40), nullable=False)
     image: Mapped[str] = mapped_column(String(40), nullable=False)
-    price: Mapped[float] = mapped_column(nullable=False)
+    price: Mapped[Decimal] = mapped_column(nullable=False)

@@ -17,4 +17,4 @@ class OrderModel(Base):
     status: Mapped[StatusEnum] = mapped_column(nullable=False)
     employee_id: Mapped[int] = mapped_column(ForeignKey("employee.id"))
     
-    employee: Mapped[EmployeeModel] = relationship(EmployeeModel, back_populates="orders")
+    employee: Mapped[EmployeeModel] = relationship(back_populates="orders")

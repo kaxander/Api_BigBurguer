@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 
 from app.common.schema import AllOptionalMetaclass, BaseSchema
 
@@ -7,7 +8,7 @@ class ProductCreateSchema(BaseSchema):
     name: str
     description: str
     image: str
-    price: str
+    price: Decimal
 
 
 class ProductUpdateSchema(ProductCreateSchema, metaclass=AllOptionalMetaclass):
