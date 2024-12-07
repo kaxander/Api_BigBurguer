@@ -7,7 +7,7 @@ from app.order.enum import StatusEnum
 class OrderCreateSchema(BaseSchema):
     table: str
     status: StatusEnum
-    employee_id: int
+    # employee_id: int
 
 
 class OrderUpdateSchema(OrderCreateSchema, metaclass=AllOptionalMetaclass):
