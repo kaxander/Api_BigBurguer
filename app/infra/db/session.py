@@ -13,11 +13,11 @@ def get_engine() -> Engine:
 
 
 @lru_cache
-def get_sessionmaker() -> sessionmaker[Session]:
+def session_maker() -> sessionmaker[Session]:
     return sessionmaker(get_engine())
 
 
 def get_session() -> Generator[Session, None, None]:
-    create_session = get_sessionmaker()
-    with create_session() as session:
+    SessionLocal = session_maker()
+    with SessionLocal() as session:
         yield session
